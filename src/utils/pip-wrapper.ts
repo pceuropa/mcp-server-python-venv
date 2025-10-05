@@ -8,7 +8,7 @@ export function getPipCommand(venvInfo: VenvInfo): string {
   if (process.env['UV_PATH'] && existsSync(process.env['UV_PATH'])) {
     return process.env['UV_PATH'];
   }
-  
+
   // Check if PIP_PATH environment variable is set
   if (process.env['PIP_PATH'] && existsSync(process.env['PIP_PATH'])) {
     return process.env['PIP_PATH'];
@@ -17,20 +17,20 @@ export function getPipCommand(venvInfo: VenvInfo): string {
   if (!venvInfo.found) {
     return 'pip';
   }
-  
+
   const possiblePaths = [
     join(venvInfo.path, 'bin', 'pip'),
     join(venvInfo.path, 'bin', 'pip3'),
     join(venvInfo.path, 'Scripts', 'pip.exe'),
     join(venvInfo.path, 'Scripts', 'pip3.exe')
   ];
-  
+
   for (const path of possiblePaths) {
     if (existsSync(path)) {
       return path;
     }
   }
-  
+
   return 'pip';
 }
 
@@ -43,20 +43,20 @@ export function getPythonCommand(venvInfo: VenvInfo): string {
   if (!venvInfo.found) {
     return 'python';
   }
-  
+
   const possiblePaths = [
     join(venvInfo.path, 'bin', 'python'),
     join(venvInfo.path, 'bin', 'python3'),
     join(venvInfo.path, 'Scripts', 'python.exe'),
     join(venvInfo.path, 'Scripts', 'python3.exe')
   ];
-  
+
   for (const path of possiblePaths) {
     if (existsSync(path)) {
       return path;
     }
   }
-  
+
   return 'python';
 }
 
