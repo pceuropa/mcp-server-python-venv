@@ -4,6 +4,17 @@
   "description": "Comprehensive Python virtual environment inspector for Cursor IDE",
   "main": "dist/index.js",
   "type": "module",
+  "bin": {
+    "mcp-python-venv": "dist/index.js"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "docs/**/*",
+    "examples/**/*"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/index.ts",
@@ -11,7 +22,8 @@
     "test:watch": "vitest",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write src/**/*.ts",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build && npm test"
   },
   "keywords": [
     "mcp",
@@ -19,7 +31,13 @@
     "python",
     "virtual-environment",
     "cursor",
-    "ide"
+    "ide",
+    "venv",
+    "poetry",
+    "pipenv",
+    "conda",
+    "package-manager",
+    "dependency-management"
   ],
   "author": "Rafal Marguzewicz <info@pceuropa.net>",
   "license": "MIT",
@@ -41,10 +59,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pceuropa/mcp-server-python-venv.git"
+    "url": "git+https://github.com/pceuropa/mcp-server-python-venv.git"
   },
   "bugs": {
     "url": "https://github.com/pceuropa/mcp-server-python-venv/issues"
   },
-  "homepage": "https://github.com/pceuropa/mcp-server-python-venv#readme"
+  "homepage": "https://github.com/pceuropa/mcp-server-python-venv#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }

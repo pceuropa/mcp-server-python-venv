@@ -12,6 +12,16 @@ A comprehensive Python virtual environment inspector for Cursor IDE using the Mo
 
 ## Installation
 
+### Global Usage (Recommended)
+
+No installation needed - use directly with npx:
+
+```bash
+npx @pceuropa/mcp-server-python-venv
+```
+
+### Global Installation (Optional)
+
 ```bash
 npm install -g @pceuropa/mcp-server-python-venv
 ```
@@ -20,7 +30,9 @@ npm install -g @pceuropa/mcp-server-python-venv
 
 ### Cursor Configuration
 
-Add this to your Cursor settings:
+#### Basic Configuration
+
+Add this to your Cursor settings (`.cursor/settings.json`):
 
 ```json
 {
@@ -28,10 +40,60 @@ Add this to your Cursor settings:
     "servers": {
       "python-venv": {
         "command": "npx",
-        "args": ["@pceuropa/mcp-server-python-venv"]
+        "args": ["@pceuropa/mcp-server-python-venv"],
+        "env": {
+          "DEBUG": "false"
+        }
       }
     }
   }
+}
+```
+
+#### Advanced Configuration
+
+For more control over the environment:
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "python-venv": {
+        "command": "npx",
+        "args": ["@pceuropa/mcp-server-python-venv"],
+        "env": {
+          "DEBUG": "false",
+          "PROJECT_PATH": "${workspaceFolder}",
+          "PYTHON_PATH": "python3",
+          "PIP_PATH": "pip3"
+        }
+      }
+    }
+  }
+}
+```
+
+#### Multi-Project Configuration
+
+For projects with multiple Python environments:
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "python-venv": {
+        "command": "npx",
+        "args": ["@pceuropa/mcp-server-python-venv"],
+        "env": {
+          "DEBUG": "false"
+        }
+      }
+    }
+  },
+  "python.defaultInterpreterPath": "./venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.typeCheckingMode": "basic"
 }
 ```
 
@@ -126,6 +188,26 @@ Export current environment to various formats.
 - **Output**: Formatted environment specification
 
 ## Development
+
+## Testing the Installation
+
+### Test with npx
+
+```bash
+# Test the server directly
+npx @pceuropa/mcp-server-python-venv
+
+# Test with a specific command
+echo '{"jsonrpc": "2.0", "id": 1, "method": "tools/list", "params": {}}' | npx @pceuropa/mcp-server-python-venv
+```
+
+### Test in Cursor
+
+1. Add the configuration to your `.cursor/settings.json`
+2. Restart Cursor IDE
+3. Open Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+4. Type "MCP" and select "MCP: Show Servers"
+5. Verify that "python-venv" server is connected
 
 ### Prerequisites
 

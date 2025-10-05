@@ -7,9 +7,10 @@
                     "@pceuropa/mcp-server-python-venv"
                 ],
                 "env": {
-                    "PYTHON_PATH": "/usr/bin/python3",
                     "DEBUG": "false",
-                    "CACHE_TTL": "300000"
+                    "PROJECT_PATH": "${workspaceFolder}",
+                    "PYTHON_PATH": "python3",
+                    "PIP_PATH": "pip3"
                 }
             }
         }

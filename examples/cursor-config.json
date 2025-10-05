@@ -3,9 +3,13 @@
     "servers": {
       "python-venv": {
         "command": "npx",
-        "args": ["@pceuropa/mcp-server-python-venv"]
+        "args": [
+          "@pceuropa/mcp-server-python-venv"
+        ],
+        "env": {
+          "DEBUG": "false"
+        }
       }
     }
   }
 }
-
