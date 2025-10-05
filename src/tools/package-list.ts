@@ -1,7 +1,8 @@
 import type { Package, PackageList } from '../types/index.js';
 import { generateCacheKey, packageListCache } from '../utils/cache.js';
-import { executePipCommand } from '../utils/pip-wrapper.js';
+import { executePipCommand, executeCommand } from '../utils/pip-wrapper.js';
 import { findVenv } from '../utils/venv-finder.js';
+import { detectEnvironmentManager } from '../utils/manager-detector.js';
 
 export function listPackages(sortBy: 'name' | 'version' = 'name'): PackageList {
   const venvInfo = findVenv();
@@ -18,7 +19,19 @@ export function listPackages(sortBy: 'name' | 'version' = 'name'): PackageList {
   }
 
   try {
-    const output = executePipCommand(venvInfo, ['list', '--format=json']);
+    let output: string;
+    
+    // Detect environment manager and use appropriate command
+    const managerInfo = detectEnvironmentManager(venvInfo.path);
+    
+    if (managerInfo.manager === 'uv') {
+      // Use uv pip for uv-managed environments
+      output = executeCommand('uv pip list --format=json');
+    } else {
+      // Use regular pip for other environments
+      output = executePipCommand(venvInfo, ['list', '--format=json']);
+    }
+    
     const packages: Package[] = JSON.parse(output);
 
     packages.sort((a, b) => {
