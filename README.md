@@ -15,10 +15,9 @@ A comprehensive Python virtual environment inspector for Cursor IDE using the Mo
 ## Supported Package Managers
 
 ✅ **Fully Supported:**
-- **pip** - Traditional Python package manager
+- **pip** - Python package manager
 - **uv** - Fast Python package manager (recommended)
 - **pipenv** - Python dependency management
-- **conda** - Cross-platform package manager (basic support)
 
 ❌ **Not Supported:**
 - **PDM** - Python Dependency Manager (not yet implemented)
