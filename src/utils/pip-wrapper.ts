@@ -4,6 +4,11 @@ import { join } from 'path';
 import type { VenvInfo } from '../types/index.js';
 
 export function getPipCommand(venvInfo: VenvInfo): string {
+  // Check if PIP_PATH environment variable is set
+  if (process.env['PIP_PATH'] && existsSync(process.env['PIP_PATH'])) {
+    return process.env['PIP_PATH'];
+  }
+
   if (!venvInfo.found) {
     return 'pip';
   }
@@ -25,6 +30,11 @@ export function getPipCommand(venvInfo: VenvInfo): string {
 }
 
 export function getPythonCommand(venvInfo: VenvInfo): string {
+  // Check if PYTHON_PATH environment variable is set
+  if (process.env['PYTHON_PATH'] && existsSync(process.env['PYTHON_PATH'])) {
+    return process.env['PYTHON_PATH'];
+  }
+
   if (!venvInfo.found) {
     return 'python';
   }

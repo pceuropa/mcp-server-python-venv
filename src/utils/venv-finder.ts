@@ -5,6 +5,21 @@ import type { VenvInfo } from '../types/index.js';
 const VENV_DIRS = ['.venv', 'venv', '.virtualenv', 'env'];
 
 export function findVenv(projectPath?: string): VenvInfo {
+  // First check if VIRTUAL_ENV environment variable is set
+  if (process.env['VIRTUAL_ENV']) {
+    const venvPath = process.env['VIRTUAL_ENV'];
+    if (existsSync(venvPath) && statSync(venvPath).isDirectory()) {
+      const pythonPath = getPythonPath(venvPath);
+      if (pythonPath && existsSync(pythonPath)) {
+        return {
+          found: true,
+          path: venvPath,
+          type: detectVenvType(venvPath)
+        };
+      }
+    }
+  }
+
   const searchPath = projectPath ? resolve(projectPath) : process.cwd();
   
   for (const venvDir of VENV_DIRS) {
