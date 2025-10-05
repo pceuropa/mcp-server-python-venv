@@ -21,15 +21,21 @@ export function listPackages(sortBy: 'name' | 'version' = 'name'): PackageList {
   try {
     let output: string;
     
-    // Detect environment manager and use appropriate command
-    const managerInfo = detectEnvironmentManager(venvInfo.path);
-    
-    if (managerInfo.manager === 'uv') {
-      // Use uv pip for uv-managed environments
+    // Check if UV_PATH is explicitly set (user choice)
+    if (process.env['UV_PATH']) {
+      // Use uv pip when UV_PATH is explicitly set
       output = executeCommand('uv pip list --format=json');
     } else {
-      // Use regular pip for other environments
-      output = executePipCommand(venvInfo, ['list', '--format=json']);
+      // Detect environment manager and use appropriate command
+      const managerInfo = detectEnvironmentManager(venvInfo.path);
+      
+      if (managerInfo.manager === 'uv') {
+        // Use uv pip for uv-managed environments
+        output = executeCommand('uv pip list --format=json');
+      } else {
+        // Use regular pip for other environments
+        output = executePipCommand(venvInfo, ['list', '--format=json']);
+      }
     }
     
     const packages: Package[] = JSON.parse(output);

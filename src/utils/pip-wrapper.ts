@@ -4,6 +4,11 @@ import { join } from 'path';
 import type { VenvInfo } from '../types/index.js';
 
 export function getPipCommand(venvInfo: VenvInfo): string {
+  // Check if UV_PATH environment variable is set (highest priority)
+  if (process.env['UV_PATH'] && existsSync(process.env['UV_PATH'])) {
+    return process.env['UV_PATH'];
+  }
+  
   // Check if PIP_PATH environment variable is set
   if (process.env['PIP_PATH'] && existsSync(process.env['PIP_PATH'])) {
     return process.env['PIP_PATH'];
