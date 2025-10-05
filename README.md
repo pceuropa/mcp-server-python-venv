@@ -42,7 +42,24 @@ For better control, specify the package manager explicitly:
         "PYTHON_PATH": "${workspaceFolder}/.venv/bin/python",
         "VIRTUAL_ENV": "${workspaceFolder}/.venv",
         "UV_PATH": "/path/to/uv"
-        //"PIP_PATH": "/path/to/your/venv/bin/pip"
+      }
+    }
+  }
+}
+```
+
+**Alternative for pip-managed projects:**
+```json
+{
+  "mcpServers": {
+    "python-venv": {
+      "command": "npx",
+      "args": ["@pceuropa/mcp-server-python-venv"],
+      "transport": "stdio",
+      "env": {
+        "PYTHON_PATH": "${workspaceFolder}/.venv/bin/python",
+        "VIRTUAL_ENV": "${workspaceFolder}/.venv",
+        "PIP_PATH": "${workspaceFolder}/.venv/bin/pip"
       }
     }
   }
