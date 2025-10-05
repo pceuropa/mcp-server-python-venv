@@ -1,0 +1,98 @@
+{
+  "description": "Example configurations for different package managers",
+  "configurations": {
+    "uv_project": {
+      "description": "Configuration for UV-managed projects",
+      "config": {
+        "mcpServers": {
+          "python-venv": {
+            "command": "npx",
+            "args": ["@pceuropa/mcp-server-python-venv"],
+            "transport": "stdio",
+            "env": {
+              "PYTHON_PATH": "/path/to/your/venv/bin/python",
+              "VIRTUAL_ENV": "/path/to/your/venv",
+              "UV_PATH": "/path/to/uv"
+            }
+          }
+        }
+      }
+    },
+    "pip_project": {
+      "description": "Configuration for pip-managed projects",
+      "config": {
+        "mcpServers": {
+          "python-venv": {
+            "command": "npx",
+            "args": ["@pceuropa/mcp-server-python-venv"],
+            "transport": "stdio",
+            "env": {
+              "PYTHON_PATH": "/path/to/your/venv/bin/python",
+              "VIRTUAL_ENV": "/path/to/your/venv",
+              "PIP_PATH": "/path/to/your/venv/bin/pip"
+            }
+          }
+        }
+      }
+    },
+    "auto_detection": {
+      "description": "Configuration with auto-detection (recommended for most users)",
+      "config": {
+        "mcpServers": {
+          "python-venv": {
+            "command": "npx",
+            "args": ["@pceuropa/mcp-server-python-venv"],
+            "transport": "stdio"
+          }
+        }
+      }
+    },
+    "poetry_project": {
+      "description": "Configuration for Poetry projects (limited support)",
+      "note": "Poetry is detected but package operations may not work correctly",
+      "config": {
+        "mcpServers": {
+          "python-venv": {
+            "command": "npx",
+            "args": ["@pceuropa/mcp-server-python-venv"],
+            "transport": "stdio",
+            "env": {
+              "PYTHON_PATH": "/path/to/your/venv/bin/python",
+              "VIRTUAL_ENV": "/path/to/your/venv",
+              "PIP_PATH": "/path/to/your/venv/bin/pip"
+            }
+          }
+        }
+      }
+    },
+    "pdm_project": {
+      "description": "Configuration for PDM projects (NOT SUPPORTED)",
+      "note": "PDM is not yet supported. Consider migrating to uv or pip.",
+      "config": {
+        "mcpServers": {
+          "python-venv": {
+            "command": "npx",
+            "args": ["@pceuropa/mcp-server-python-venv"],
+            "transport": "stdio",
+            "env": {
+              "PYTHON_PATH": "/path/to/your/venv/bin/python",
+              "VIRTUAL_ENV": "/path/to/your/venv",
+              "PIP_PATH": "/path/to/your/venv/bin/pip"
+            }
+          }
+        }
+      }
+    }
+  },
+  "limitations": {
+    "not_supported": [
+      "PDM (Python Dependency Manager) - Not yet implemented",
+      "Poetry - Limited support (detection only, no package operations)"
+    ],
+    "known_issues": [
+      "Poetry environments - Can detect but cannot list packages",
+      "PDM environments - Not detected or supported",
+      "Mixed environments - May not work correctly if using multiple package managers"
+    ]
+  }
+}

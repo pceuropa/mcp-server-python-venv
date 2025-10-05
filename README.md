@@ -9,6 +9,20 @@ A comprehensive Python virtual environment inspector for Cursor IDE using the Mo
 - 📋 **Requirements Analysis** - Compare installed packages with requirements files
 - 🐍 **Python Version Detection** - Get Python version information from virtual environments
 - 🔧 **Multi-Format Support** - Support for requirements.txt, pyproject.toml, Pipfile, and more
+- ⚡ **UV Support** - Full support for uv-managed environments
+- 🎯 **Flexible Configuration** - Choose between pip and uv via environment variables
+
+## Supported Package Managers
+
+✅ **Fully Supported:**
+- **pip** - Traditional Python package manager
+- **uv** - Fast Python package manager (recommended)
+- **pipenv** - Python dependency management
+- **conda** - Cross-platform package manager (basic support)
+
+❌ **Not Supported:**
+- **PDM** - Python Dependency Manager (not yet implemented)
+- **Poetry** - Limited support (detection only, no package operations)
 
 ## Installation
 
@@ -30,20 +44,56 @@ npm install -g @pceuropa/mcp-server-python-venv
 
 ### Cursor Configuration
 
-#### Basic Configuration
+#### Basic Configuration (Auto-detection)
 
-Add this to your Cursor settings (`.cursor/settings.json`):
+Add this to your Cursor MCP configuration (`.cursor/mcp.json`):
 
 ```json
 {
-  "mcp": {
-    "servers": {
-      "python-venv": {
-        "command": "npx",
-        "args": ["@pceuropa/mcp-server-python-venv"],
-        "env": {
-          "DEBUG": "false"
-        }
+  "mcpServers": {
+    "python-venv": {
+      "command": "npx",
+      "args": ["@pceuropa/mcp-server-python-venv"],
+      "transport": "stdio"
+    }
+  }
+}
+```
+
+#### Advanced Configuration (Explicit Package Manager)
+
+For better control, specify the package manager explicitly:
+
+**For UV-managed projects:**
+```json
+{
+  "mcpServers": {
+    "python-venv": {
+      "command": "npx",
+      "args": ["@pceuropa/mcp-server-python-venv"],
+      "transport": "stdio",
+      "env": {
+        "PYTHON_PATH": "/path/to/your/venv/bin/python",
+        "VIRTUAL_ENV": "/path/to/your/venv",
+        "UV_PATH": "/path/to/uv"
+      }
+    }
+  }
+}
+```
+
+**For pip-managed projects:**
+```json
+{
+  "mcpServers": {
+    "python-venv": {
+      "command": "npx",
+      "args": ["@pceuropa/mcp-server-python-venv"],
+      "transport": "stdio",
+      "env": {
+        "PYTHON_PATH": "/path/to/your/venv/bin/python",
+        "VIRTUAL_ENV": "/path/to/your/venv",
+        "PIP_PATH": "/path/to/your/venv/bin/pip"
       }
     }
   }
@@ -156,6 +206,7 @@ Detect which Python environment manager is being used.
 Get Poetry project information and dependencies.
 - **Input**: `projectPath` (optional) - Project path
 - **Output**: Poetry project details, dependencies, and environment info
+- **Note**: Limited support - detection only, package operations may not work
 
 #### `get_pipenv_info`
 Get Pipenv project information and dependencies.
@@ -166,6 +217,7 @@ Get Pipenv project information and dependencies.
 Get Conda environment information and packages.
 - **Input**: `projectPath` (optional) - Project path
 - **Output**: Conda environment details, packages, and configuration
+- **Note**: Basic support - may have limited functionality
 
 #### `check_security`
 Check for security vulnerabilities in installed packages.
@@ -186,6 +238,67 @@ Search for packages on PyPI.
 Export current environment to various formats.
 - **Input**: `format` (required) - Export format: "requirements", "pyproject", or "conda"
 - **Output**: Formatted environment specification
+
+## Environment Variables
+
+The server supports the following environment variables for configuration:
+
+| Variable | Description | Priority |
+|----------|-------------|----------|
+| `UV_PATH` | Path to uv executable (forces uv usage) | Highest |
+| `PIP_PATH` | Path to pip executable (forces pip usage) | High |
+| `PYTHON_PATH` | Path to Python executable | Medium |
+| `VIRTUAL_ENV` | Path to virtual environment | Medium |
+
+**Priority Order:**
+1. `UV_PATH` - If set, uses `uv pip` for all operations
+2. `PIP_PATH` - If set, uses specified pip executable
+3. Auto-detection - Detects package manager from project files
+
+## Limitations
+
+### Not Supported Package Managers
+
+- **PDM (Python Dependency Manager)** - Not yet implemented
+- **Poetry** - Limited support (detection only, no package operations)
+
+### Known Issues
+
+- **Poetry environments** - Can detect but cannot list packages
+- **PDM environments** - Not detected or supported
+- **Mixed environments** - May not work correctly if using multiple package managers
+
+## Troubleshooting
+
+### Server Not Finding Virtual Environment
+
+1. **Check environment variables:**
+   ```bash
+   echo $VIRTUAL_ENV
+   echo $PYTHON_PATH
+   ```
+
+2. **Use explicit paths in MCP configuration:**
+   ```json
+   {
+     "env": {
+       "VIRTUAL_ENV": "/absolute/path/to/your/venv",
+       "PYTHON_PATH": "/absolute/path/to/your/venv/bin/python"
+     }
+   }
+   ```
+
+3. **Restart Cursor IDE** after configuration changes
+
+### Empty Package List
+
+1. **For UV projects:** Ensure `UV_PATH` is set
+2. **For pip projects:** Ensure `PIP_PATH` is set
+3. **Check package manager detection:**
+   ```bash
+   npx @pceuropa/mcp-server-python-venv
+   # Then call detect_environment_manager tool
+   ```
 
 ## Development
 
@@ -252,10 +365,10 @@ npm run format
 
 - **venv** - Standard Python venv
 - **virtualenv** - Virtualenv package
-- **poetry** - Poetry environments
+- **uv** - UV package manager (recommended)
 - **pipenv** - Pipenv environments
 - **conda** - Conda environments
-- **uv** - UV package manager
+- **poetry** - Poetry environments (detection only)
 
 ## Supported Requirements Formats
 
@@ -263,7 +376,7 @@ npm run format
 - `requirements-dev.txt`
 - `requirements-test.txt`
 - `pyproject.toml` (project dependencies)
-- `pyproject.toml` (poetry dependencies)
+- `pyproject.toml` (poetry dependencies - limited support)
 - `Pipfile`
 - `setup.py` (basic support)
 

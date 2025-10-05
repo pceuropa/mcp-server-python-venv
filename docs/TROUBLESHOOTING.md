@@ -1,6 +1,82 @@
 # Troubleshooting Guide
 
+## Package Manager Support
+
+### Supported Package Managers
+
+✅ **Fully Supported:**
+- **pip** - Traditional Python package manager
+- **uv** - Fast Python package manager (recommended)
+- **pipenv** - Python dependency management
+- **conda** - Cross-platform package manager (basic support)
+
+❌ **Not Supported:**
+- **PDM (Python Dependency Manager)** - Not yet implemented
+- **Poetry** - Limited support (detection only, no package operations)
+
+### Environment Variable Configuration
+
+The server uses environment variables to determine which package manager to use:
+
+| Variable | Description | Priority |
+|----------|-------------|----------|
+| `UV_PATH` | Path to uv executable (forces uv usage) | Highest |
+| `PIP_PATH` | Path to pip executable (forces pip usage) | High |
+| `PYTHON_PATH` | Path to Python executable | Medium |
+| `VIRTUAL_ENV` | Path to virtual environment | Medium |
+
+**Priority Order:**
+1. `UV_PATH` - If set, uses `uv pip` for all operations
+2. `PIP_PATH` - If set, uses specified pip executable
+3. Auto-detection - Detects package manager from project files
+
 ## Common Issues and Solutions
+
+### Package Manager Issues
+
+#### Issue: PDM environments not detected
+
+**Symptoms**:
+- PDM projects show as "venv" or "unknown"
+- Cannot list packages in PDM environments
+
+**Cause**: PDM is not yet supported by the MCP server
+
+**Solutions**:
+1. **Use pip instead**: Install packages with pip in the PDM environment
+2. **Convert to uv**: Migrate from PDM to uv for better support
+3. **Wait for PDM support**: PDM support is planned for future versions
+
+#### Issue: Poetry environments show empty package list
+
+**Symptoms**:
+- Poetry projects are detected correctly
+- `list_packages` returns empty list
+- Other tools fail with Poetry environments
+
+**Cause**: Poetry support is limited to detection only
+
+**Solutions**:
+1. **Use pip in Poetry environment**: 
+   ```bash
+   poetry run pip list
+   ```
+2. **Convert to uv**: Migrate from Poetry to uv for full support
+3. **Use Poetry CLI directly**: Use Poetry commands outside of MCP
+
+#### Issue: Conda environments have limited functionality
+
+**Symptoms**:
+- Conda environments are detected correctly
+- Some package operations may fail
+- Limited package listing functionality
+
+**Cause**: Conda support is basic and may not work with all conda features
+
+**Solutions**:
+1. **Use conda CLI directly**: Use conda commands outside of MCP
+2. **Convert to uv**: Migrate from Conda to uv for full support
+3. **Use pip in conda environment**: Install packages with pip in the conda environment
 
 ### Virtual Environment Issues
 

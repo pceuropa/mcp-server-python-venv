@@ -5,6 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2025-01-05
+
+### Added
+- **UV_PATH Environment Variable** - Explicit uv usage control
+- **Enhanced Package Manager Selection** - User can choose between pip and uv
+- **Improved Documentation** - Clear configuration examples and limitations
+
+### Changed
+- **Environment Variable Priority** - UV_PATH takes precedence over PIP_PATH
+- **Package Manager Detection** - Better handling of uv-managed environments
+- **Configuration Examples** - Updated with UV_PATH and PIP_PATH options
+
+### Fixed
+- **UV Package Listing** - Fixed empty package lists in uv-managed environments
+- **Environment Detection** - Improved venv detection with environment variables
+
+### Documentation
+- **Package Manager Support** - Clear list of supported and unsupported managers
+- **Limitations Section** - Information about PDM and Poetry limitations
+- **Troubleshooting Guide** - Solutions for common package manager issues
+
+## [1.0.3] - 2025-01-05
+
+### Added
+- **UV Package Manager Support** - Full support for uv-managed environments
+- **Automatic Manager Detection** - Detects uv vs pip environments
+
+### Fixed
+- **Empty Package Lists** - Fixed issue where uv environments showed no packages
+- **Package Manager Commands** - Uses 'uv pip' for uv environments
+
+## [1.0.2] - 2025-01-05
+
+### Added
+- **Environment Variable Support** - VIRTUAL_ENV, PYTHON_PATH, PIP_PATH
+- **Cross-Directory Compatibility** - Works from any working directory
+
+### Fixed
+- **Virtual Environment Detection** - Fixed "No virtual environment found" errors
+- **MCP Context Issues** - Resolved problems with Cursor IDE integration
+
 ## [1.0.0] - 2025-01-27
 
 ### Added
