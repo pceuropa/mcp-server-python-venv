@@ -1,6 +1,6 @@
 {
   "name": "@pceuropa/mcp-server-python-venv",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Comprehensive Python virtual environment inspector for Cursor IDE",
   "main": "dist/index.js",
   "type": "module",
