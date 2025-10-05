@@ -24,46 +24,13 @@ A comprehensive Python virtual environment inspector for Cursor IDE using the Mo
 - **Poetry** - Limited support (detection only, no package operations)
 
 ## Installation
-
-### Global Usage (Recommended)
-
-No installation needed - use directly with npx:
-
-```bash
-npx @pceuropa/mcp-server-python-venv
-```
-
-### Global Installation (Optional)
-
 ```bash
 npm install -g @pceuropa/mcp-server-python-venv
 ```
 
 ## Usage
-
-### Cursor Configuration
-
-#### Basic Configuration (Auto-detection)
-
-Add this to your Cursor MCP configuration (`.cursor/mcp.json`):
-
-```json
-{
-  "mcpServers": {
-    "python-venv": {
-      "command": "npx",
-      "args": ["@pceuropa/mcp-server-python-venv"],
-      "transport": "stdio"
-    }
-  }
-}
-```
-
-#### Advanced Configuration (Explicit Package Manager)
-
 For better control, specify the package manager explicitly:
 
-**For UV-managed projects:**
 ```json
 {
   "mcpServers": {
@@ -72,81 +39,17 @@ For better control, specify the package manager explicitly:
       "args": ["@pceuropa/mcp-server-python-venv"],
       "transport": "stdio",
       "env": {
-        "PYTHON_PATH": "/path/to/your/venv/bin/python",
-        "VIRTUAL_ENV": "/path/to/your/venv",
+        "PYTHON_PATH": "${workspaceFolder}/.venv/bin/python",
+        "VIRTUAL_ENV": "${workspaceFolder}/.venv",
         "UV_PATH": "/path/to/uv"
+        //"PIP_PATH": "/path/to/your/venv/bin/pip"
       }
     }
   }
 }
 ```
 
-**For pip-managed projects:**
-```json
-{
-  "mcpServers": {
-    "python-venv": {
-      "command": "npx",
-      "args": ["@pceuropa/mcp-server-python-venv"],
-      "transport": "stdio",
-      "env": {
-        "PYTHON_PATH": "/path/to/your/venv/bin/python",
-        "VIRTUAL_ENV": "/path/to/your/venv",
-        "PIP_PATH": "/path/to/your/venv/bin/pip"
-      }
-    }
-  }
-}
-```
-
-#### Advanced Configuration
-
-For more control over the environment:
-
-```json
-{
-  "mcp": {
-    "servers": {
-      "python-venv": {
-        "command": "npx",
-        "args": ["@pceuropa/mcp-server-python-venv"],
-        "env": {
-          "DEBUG": "false",
-          "PROJECT_PATH": "${workspaceFolder}",
-          "PYTHON_PATH": "python3",
-          "PIP_PATH": "pip3"
-        }
-      }
-    }
-  }
-}
-```
-
-#### Multi-Project Configuration
-
-For projects with multiple Python environments:
-
-```json
-{
-  "mcp": {
-    "servers": {
-      "python-venv": {
-        "command": "npx",
-        "args": ["@pceuropa/mcp-server-python-venv"],
-        "env": {
-          "DEBUG": "false"
-        }
-      }
-    }
-  },
-  "python.defaultInterpreterPath": "./venv/bin/python",
-  "python.terminal.activateEnvironment": true,
-  "python.analysis.autoImportCompletions": true,
-  "python.analysis.typeCheckingMode": "basic"
-}
-```
-
-### Available Tools
+## Available Tools
 
 #### `ping`
 Test server connectivity.
@@ -389,7 +292,7 @@ Contributions are welcome! Please read our contributing guidelines and submit pu
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/pceuropa/mcp-server-python-venv/issues)
+- **NPM**: [Package](https://www.npmjs.com/package/@pceuropa/mcp-server-python-venv)
 - **Discussions**: [GitHub Discussions](https://github.com/pceuropa/mcp-server-python-venv/discussions)
 - **Email**: info@pceuropa.net
 
