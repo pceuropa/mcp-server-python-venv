@@ -1,0 +1,11 @@
+{
+  "mcp": {
+    "servers": {
+      "python-venv": {
+        "command": "npx",
+        "args": ["@pceuropa/mcp-server-python-venv"]
+      }
+    }
+  }
+}
+

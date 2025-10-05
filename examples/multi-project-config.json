@@ -1,0 +1,33 @@
+{
+    "mcp": {
+        "servers": {
+            "python-venv-main": {
+                "command": "npx",
+                "args": [
+                    "@pceuropa/mcp-server-python-venv"
+                ],
+                "env": {
+                    "PROJECT_PATH": "/path/to/main/project"
+                }
+            },
+            "python-venv-api": {
+                "command": "npx",
+                "args": [
+                    "@pceuropa/mcp-server-python-venv"
+                ],
+                "env": {
+                    "PROJECT_PATH": "/path/to/api/project"
+                }
+            },
+            "python-venv-frontend": {
+                "command": "npx",
+                "args": [
+                    "@pceuropa/mcp-server-python-venv"
+                ],
+                "env": {
+                    "PROJECT_PATH": "/path/to/frontend/project"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "mcp": {
+        "servers": {
+            "python-venv": {
+                "command": "npx",
+                "args": [
+                    "@pceuropa/mcp-server-python-venv"
+                ],
+                "env": {
+                    "PYTHON_PATH": "/usr/bin/python3",
+                    "DEBUG": "false",
+                    "CACHE_TTL": "300000"
+                }
+            }
+        }
+    }
+}

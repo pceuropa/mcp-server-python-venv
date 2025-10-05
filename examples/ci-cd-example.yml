@@ -1,0 +1,69 @@
+name: Python Environment Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  environment-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install MCP Python Venv Server
+      run: npm install -g @pceuropa/mcp-server-python-venv
+    
+    - name: Create Virtual Environment
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+        pip install --upgrade pip
+    
+    - name: Install Dependencies
+      run: |
+        source .venv/bin/activate
+        pip install -r requirements.txt
+    
+    - name: Check Security Vulnerabilities
+      run: |
+        source .venv/bin/activate
+        echo '{"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "check_security", "arguments": {}}}' | npx @pceuropa/mcp-server-python-venv
+    
+    - name: Check Licenses
+      run: |
+        source .venv/bin/activate
+        echo '{"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "check_licenses", "arguments": {}}}' | npx @pceuropa/mcp-server-python-venv
+    
+    - name: Check Outdated Packages
+      run: |
+        source .venv/bin/activate
+        echo '{"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "check_outdated", "arguments": {}}}' | npx @pceuropa/mcp-server-python-venv
+    
+    - name: Compare Requirements
+      run: |
+        source .venv/bin/activate
+        echo '{"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "compare_requirements", "arguments": {}}}' | npx @pceuropa/mcp-server-python-venv
+    
+    - name: Export Environment
+      run: |
+        source .venv/bin/activate
+        echo '{"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "export_environment", "arguments": {"format": "requirements"}}}' | npx @pceuropa/mcp-server-python-venv > exported-requirements.txt
+    
+    - name: Upload Environment Export
+      uses: actions/upload-artifact@v3
+      with:
+        name: exported-environment
+        path: exported-requirements.txt
